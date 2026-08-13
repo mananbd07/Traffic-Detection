@@ -11,10 +11,12 @@ from ultralytics import YOLO
 # --- 1. ABSOLUTE PATH RESOLUTION ---
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SCRIPT_DIR)
-DATA_FOLDER = os.path.join(ROOT_DIR, "06_Data_Labs")
-MODEL_PATH = os.path.join(ROOT_DIR, "03_Perception", "yolov8n.pt")
+DATA_FOLDER = os.path.join(ROOT_DIR, "data")
+MODEL_PATH = os.path.join(ROOT_DIR, "perception", "yolov8n.pt")
 LIVE_JSON = os.path.join(DATA_FOLDER, "live_status.json")
 RESULTS_CSV = os.path.join(DATA_FOLDER, "results.csv")
+
+os.makedirs(DATA_FOLDER, exist_ok=True)
 
 # --- 2. CONFIG & THEME ---
 st.set_page_config(page_title="Jagatpura Digital Twin", layout="wide")

@@ -7,8 +7,8 @@ import time
 # --- 1. DYNAMIC PATH RESOLUTION ---
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(SCRIPT_DIR)
-DATA_LABS_DIR = os.path.join(ROOT_DIR, "06_Data_Labs")
-RESEARCH_DIR = os.path.join(ROOT_DIR, "02_AI_Research")
+DATA_LABS_DIR = os.path.join(ROOT_DIR, "data")
+RESEARCH_DIR = os.path.join(ROOT_DIR, "control")
 
 # Add Research folder to Python Path
 sys.path.append(RESEARCH_DIR)
@@ -21,17 +21,26 @@ OUTPUT_XML = os.path.join(DATA_LABS_DIR, "results.xml")
 OUTPUT_CSV = os.path.join(DATA_LABS_DIR, "results.csv")
 LIVE_JSON = os.path.join(DATA_LABS_DIR, "live_status.json")
 
+os.makedirs(DATA_LABS_DIR, exist_ok=True)
+
 # --- 2. SUMO ENVIRONMENT ---
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'], 'tools')
     sys.path.append(tools)
 else:
-    sumo_path = r"C:\Program Files (x86)\Eclipse\Sumo"
-    os.environ['SUMO_HOME'] = sumo_path
-    sys.path.append(os.path.join(sumo_path, 'tools'))
+    import shutil
+    sumo_binary = shutil.which('sumo')
+    if sumo_binary:
+        sumo_home = os.path.dirname(os.path.dirname(sumo_binary))
+        os.environ['SUMO_HOME'] = sumo_home
+        sys.path.append(os.path.join(sumo_home, 'tools'))
+    else:
+        sumo_path = r"C:\Program Files (x86)\Eclipse\Sumo"
+        os.environ['SUMO_HOME'] = sumo_path
+        sys.path.append(os.path.join(sumo_path, 'tools'))
 
 def main():
-    print("🚀 HYBRID QUANTUM-CLASSIAL ENGINE: STARTING")
+    print("HYBRID QUANTUM-CLASSICAL ENGINE: STARTING")
     
     sumo_cmd = [
         "sumo-gui", "-n", NET_FILE, "-r", ROU_FILE, 
@@ -41,7 +50,7 @@ def main():
     
     traci.start(sumo_cmd)
     tls_ids = traci.trafficlight.getIDList()
-    print(f"🚦 Quantum Actuator Monitoring {len(tls_ids)} Signals.")
+    print(f"Quantum Actuator Monitoring {len(tls_ids)} Signals.")
 
     step = 0
     while step < 6300:
@@ -86,11 +95,11 @@ def main():
     traci.close()
     
     # Export Data
-    print("🏁 Syncing Analytics...")
+    print("Syncing Analytics...")
     xml2csv = os.path.join(os.environ['SUMO_HOME'], 'tools', 'xml', 'xml2csv.py')
     if os.path.exists(OUTPUT_XML):
         os.system(f'python "{xml2csv}" "{OUTPUT_XML}" -o "{OUTPUT_CSV}"')
-        print(f"✅ Dashboard Updated.")
+        print(f"Dashboard Updated.")
 
 if __name__ == "__main__":
     main()

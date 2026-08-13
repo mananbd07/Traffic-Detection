@@ -18,3 +18,15 @@ uploads/
 Thumbs.db
 
 01_Pro_Version/environment/CARLA_Server/
+
+# Added during Sanitization
+01_Pro_Version/data/live_status.json
+01_Pro_Version/data/state.json
+01_Pro_Version/data/results.xml
+01_Pro_Version/data/results.csv
+01_Pro_Version/data/traffic_log.csv
+01_Pro_Version/environment/Lib/
+01_Pro_Version/environment/Scripts/
+*.log
+.vscode/
+.idea/
