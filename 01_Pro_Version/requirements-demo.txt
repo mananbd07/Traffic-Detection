@@ -1,0 +1,8 @@
+# Public Demo Dependencies (Lightweight Cloud Deployment)
+# Note: Do NOT include 'opencv-python'. 'opencv-python-headless' is required for cloud compatibility (prevents libGL.so crashes).
+streamlit
+pandas
+plotly
+numpy
+ultralytics
+opencv-python-headless
